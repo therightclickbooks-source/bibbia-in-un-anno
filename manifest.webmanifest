@@ -4,7 +4,7 @@
   "lang": "it",
   "dir": "ltr",
   "description": "Una lettura al giorno per leggere tutta la Bibbia in 365 giorni, con uno spunto per la vita di oggi.",
-  "id": "./",
+  "id": "/bibbia-in-un-anno/",
   "start_url": "./",
   "scope": "./",
   "display": "standalone",

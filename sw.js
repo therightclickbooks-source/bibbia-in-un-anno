@@ -8,7 +8,8 @@ self.addEventListener('install', e => {
 
 self.addEventListener('activate', e => {
   e.waitUntil(caches.keys()
-    .then(nomi => Promise.all(nomi.filter(n => n !== VERSIONE).map(n => caches.delete(n))))
+    // stesso indirizzo di altre app su GitHub Pages: si toccano solo le copie della Bibbia
+    .then(nomi => Promise.all(nomi.filter(n => n.startsWith('bibbia-') && n !== VERSIONE).map(n => caches.delete(n))))
     .then(() => self.clients.claim()));
 });
 
