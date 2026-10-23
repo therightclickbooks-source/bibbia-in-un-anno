@@ -1,0 +1,1546 @@
+<!doctype html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#f4f4f0" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#111319" media="(prefers-color-scheme: dark)">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" type="image/png" href="icone/favicon.png">
+<link rel="apple-touch-icon" href="icone/apple-touch-icon.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Bibbia">
+<style>:root { padding-top: env(safe-area-inset-top, 0px); }</style>
+<title>Bibbia in un anno</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<meta name="description" content="Una lettura al giorno per leggere tutta la Bibbia in 365 giorni, con uno spunto per la vita di oggi.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Literata:ital,opsz,wght@0,7..72,400..700;1,7..72,400..500&family=Figtree:wght@400;500;600;700&display=swap">
+<style>
+/* Una colonna stretta come la pagina di una Bibbia tascabile: testo al centro,
+   numeri di capitolo e versetto "rubricati" in rosso, un segnalibro a nastro
+   che indica il giorno. Navigazione in basso, a portata di pollice. */
+:root {
+  --carta: #f4f4f0;
+  --pagina: #ffffff;
+  --inchiostro: #1c1e29;
+  --grigio: #5c6070;
+  --filo: #e1e0d9;
+  --lapis: #2c4a94;
+  --lapis-tenue: #e5eaf5;
+  --rubrica: #a8322b;
+  --su-lapis: #ffffff;
+  --ombra: 0 1px 2px rgb(28 30 41 / .06), 0 8px 24px rgb(28 30 41 / .06);
+  --f-testo: "Literata", Georgia, "Noto Serif", "Times New Roman", serif;
+  --f-ui: "Figtree", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --dim: 19px;
+  --misura: 36rem;
+  --barra: 64px;
+  --ev-giallo: #ffe27a; --ev-verde: #bfe8b4; --ev-azzurro: #bcdcff; --ev-rosa: #ffc6dd;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --carta: #111319; --pagina: #191c24; --inchiostro: #e6e3da; --grigio: #9b9eab;
+    --filo: #2a2e3a; --lapis: #92a9ee; --lapis-tenue: #1f2740; --rubrica: #e57d72;
+    --su-lapis: #10131b; --ombra: 0 1px 2px rgb(0 0 0 / .3), 0 8px 24px rgb(0 0 0 / .25);
+    --ev-giallo: rgb(222 182 40 / .42); --ev-verde: rgb(96 190 110 / .38); --ev-azzurro: rgb(96 150 240 / .42); --ev-rosa: rgb(232 110 160 / .40);
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --carta: #111319; --pagina: #191c24; --inchiostro: #e6e3da; --grigio: #9b9eab;
+  --filo: #2a2e3a; --lapis: #92a9ee; --lapis-tenue: #1f2740; --rubrica: #e57d72;
+  --su-lapis: #10131b; --ombra: 0 1px 2px rgb(0 0 0 / .3), 0 8px 24px rgb(0 0 0 / .25);
+  --ev-giallo: rgb(222 182 40 / .42); --ev-verde: rgb(96 190 110 / .38); --ev-azzurro: rgb(96 150 240 / .42); --ev-rosa: rgb(232 110 160 / .40);
+  color-scheme: dark;
+}
+/* Temi scelti dentro l'app: vincono su quello del sistema */
+html:root.t-chiaro {
+  --carta: #f4f4f0; --pagina: #ffffff; --inchiostro: #1c1e29; --grigio: #5c6070;
+  --filo: #e1e0d9; --lapis: #2c4a94; --lapis-tenue: #e5eaf5; --rubrica: #a8322b;
+  --su-lapis: #ffffff; --ombra: 0 1px 2px rgb(28 30 41 / .06), 0 8px 24px rgb(28 30 41 / .06);
+  --ev-giallo: #ffe27a; --ev-verde: #bfe8b4; --ev-azzurro: #bcdcff; --ev-rosa: #ffc6dd;
+  color-scheme: light;
+}
+html:root.t-seppia {
+  --carta: #efe5d0; --pagina: #f7efdd; --inchiostro: #3a2e22; --grigio: #75644f;
+  --filo: #ddcfb3; --lapis: #34558a; --lapis-tenue: #e3dccb; --rubrica: #9c3a22;
+  --su-lapis: #fbf6ea; --ombra: 0 1px 2px rgb(58 46 34 / .08), 0 8px 24px rgb(58 46 34 / .08);
+  --ev-giallo: #f2d266; --ev-verde: #c6dea2; --ev-azzurro: #c1d5ea; --ev-rosa: #efc0c8;
+  color-scheme: light;
+}
+html:root.t-notte {
+  --carta: #111319; --pagina: #191c24; --inchiostro: #e6e3da; --grigio: #9b9eab;
+  --filo: #2a2e3a; --lapis: #92a9ee; --lapis-tenue: #1f2740; --rubrica: #e57d72;
+  --su-lapis: #10131b; --ombra: 0 1px 2px rgb(0 0 0 / .3), 0 8px 24px rgb(0 0 0 / .25);
+  --ev-giallo: rgb(222 182 40 / .42); --ev-verde: rgb(96 190 110 / .38); --ev-azzurro: rgb(96 150 240 / .42); --ev-rosa: rgb(232 110 160 / .40);
+  color-scheme: dark;
+}
+
+* { box-sizing: border-box; }
+[hidden] { display: none !important; }
+html { -webkit-text-size-adjust: 100%; }
+body {
+  margin: 0;
+  background: var(--carta);
+  color: var(--inchiostro);
+  font-family: var(--f-ui);
+  font-size: 16px;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+}
+body::before {
+  content: ""; position: fixed; inset: 0 0 auto; height: env(safe-area-inset-top, 0px);
+  z-index: 10; background: var(--carta);
+}
+button, input, textarea, select { font: inherit; color: inherit; }
+button { cursor: pointer; }
+:focus-visible { outline: 2px solid var(--lapis); outline-offset: 2px; border-radius: 4px; }
+
+.app {
+  max-width: 44rem;
+  margin: 0 auto;
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+  padding-block: 12px calc(var(--barra) + 32px + env(safe-area-inset-bottom, 0px));
+}
+.vista { display: grid; gap: 24px; }
+
+/* ---------- etichette e titoli ---------- */
+.occhiello {
+  margin: 0;
+  font: 600 12px/1.3 var(--f-ui);
+  letter-spacing: .09em;
+  text-transform: uppercase;
+  color: var(--grigio);
+}
+h1, h2, h3 { text-wrap: balance; margin: 0; }
+.titolo {
+  font: 600 clamp(28px, 7.4vw, 40px)/1.1 var(--f-testo);
+  font-variation-settings: "opsz" 60;
+  letter-spacing: -.01em;
+}
+.sez-titolo {
+  font: 700 12px/1.3 var(--f-ui);
+  letter-spacing: .09em;
+  text-transform: uppercase;
+  color: var(--rubrica);
+}
+
+/* ---------- testata del giorno con segnalibro ---------- */
+.testata {
+  position: relative;
+  display: grid;
+  gap: 10px;
+  padding: 28px 64px 4px 0;
+}
+.nastro {
+  position: absolute;
+  top: -12px;
+  right: 6px;
+  width: 38px;
+  height: 92px;
+  background: var(--rubrica);
+  color: var(--su-lapis);
+  clip-path: polygon(0 0, 100% 0, 100% 100%, 50% 84%, 0 100%);
+  display: grid;
+  place-items: end center;
+  padding-bottom: 22px;
+  font: 700 13px/1 var(--f-ui);
+  font-variant-numeric: tabular-nums;
+}
+.passi {
+  margin: 0;
+  font: 500 15px/1.4 var(--f-ui);
+  color: var(--grigio);
+  display: flex; flex-wrap: wrap; gap: 4px 12px;
+}
+.passi strong { color: var(--inchiostro); font-weight: 600; }
+.avanzamento {
+  height: 4px; border-radius: 4px; background: var(--filo); overflow: hidden;
+}
+.avanzamento > span { display: block; height: 100%; background: var(--lapis); border-radius: inherit; }
+
+/* ---------- blocchi di riflessione ---------- */
+.breve {
+  display: grid; gap: 6px;
+  padding: 16px 18px;
+  background: var(--lapis-tenue);
+  border-radius: 14px;
+}
+.breve p, .spunto p { margin: 0; font: 400 17px/1.55 var(--f-testo); font-variation-settings: "opsz" 16; }
+.spunti { display: grid; gap: 22px; padding-top: 8px; border-top: 1px solid var(--filo); }
+.spunto { display: grid; gap: 6px; }
+.portare {
+  margin: 0;
+  padding: 20px 20px 16px;
+  background: var(--pagina);
+  border-radius: 14px;
+  box-shadow: var(--ombra);
+  display: grid; gap: 10px;
+}
+.portare blockquote {
+  margin: 0;
+  font: italic 400 19px/1.5 var(--f-testo);
+  font-variation-settings: "opsz" 24;
+}
+.portare figcaption {
+  display: flex; align-items: center; justify-content: space-between; gap: 12px;
+  font: 600 14px/1.3 var(--f-ui); color: var(--grigio);
+}
+.nota-avviso { margin: 0; font-size: 13px; color: var(--grigio); }
+
+/* ---------- testo biblico ---------- */
+.testo {
+  font-family: var(--f-testo);
+  font-size: var(--dim);
+  line-height: 1.68;
+  font-variation-settings: "opsz" 14;
+  max-width: var(--misura);
+  hyphens: auto;
+  -webkit-hyphens: auto;
+}
+.testo .libro-tit {
+  margin: 28px 0 6px;
+  font: 700 12px/1.3 var(--f-ui);
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  color: var(--grigio);
+}
+.testo .libro-tit:first-child { margin-top: 0; }
+.cap { margin: 0 0 1.4em; }
+.cap::after { content: ""; display: block; clear: both; }
+.cap p { margin: 0 0 .7em; }
+.capn {
+  float: left;
+  font: 600 3.1em/.82 var(--f-testo);
+  font-variation-settings: "opsz" 72;
+  color: var(--rubrica);
+  margin: .1em .14em 0 0;
+  font-variant-numeric: lining-nums;
+}
+.vn {
+  font: 600 .58em/1 var(--f-ui);
+  color: var(--rubrica);
+  vertical-align: .55em;
+  margin-right: .18em;
+  font-variant-numeric: tabular-nums;
+}
+.senza-numeri .vn { display: none; }
+.righe .cap p { margin: 0 0 .35em; }
+.righe .capn { float: none; display: block; font-size: 2em; margin: 0 0 .25em; }
+.v.trovato { background: color-mix(in srgb, var(--rubrica) 16%, transparent); border-radius: 3px; }
+.testo .v { cursor: pointer; -webkit-tap-highlight-color: transparent; }
+.v.scelto { background: color-mix(in srgb, var(--lapis) 14%, transparent); border-radius: 3px; }
+
+/* ---------- pulsanti ---------- */
+.btn {
+  appearance: none;
+  border: 1px solid var(--filo);
+  background: var(--pagina);
+  color: var(--inchiostro);
+  border-radius: 999px;
+  padding: 10px 16px;
+  font: 600 15px/1.2 var(--f-ui);
+  display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+  min-height: 44px;
+}
+.btn:active { transform: translateY(1px); }
+.btn.primario { background: var(--lapis); border-color: var(--lapis); color: var(--su-lapis); }
+.btn.piccolo { min-height: 34px; padding: 6px 12px; font-size: 13px; }
+.btn.grande { width: 100%; min-height: 56px; font-size: 17px; border-radius: 16px; }
+.btn.fatto-si { background: var(--lapis-tenue); border-color: var(--lapis-tenue); color: var(--lapis); }
+.btn[disabled] { opacity: .45; cursor: default; }
+.btn svg { width: 18px; height: 18px; flex: none; }
+.riga-btn { display: flex; gap: 10px; flex-wrap: wrap; }
+.prevnext { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.prevnext .btn { width: 100%; }
+
+/* ---------- note personali ---------- */
+.nota { display: grid; gap: 8px; }
+.nota label { font: 600 15px/1.3 var(--f-ui); }
+.nota textarea {
+  width: 100%; min-height: 96px; resize: vertical;
+  padding: 12px 14px; border-radius: 12px;
+  border: 1px solid var(--filo); background: var(--pagina);
+  font: 400 16px/1.5 var(--f-testo);
+}
+.nota small { color: var(--grigio); font-size: 13px; }
+
+/* ---------- benvenuto ---------- */
+.benvenuto {
+  padding: 18px; border-radius: 14px; background: var(--pagina); box-shadow: var(--ombra);
+  display: grid; gap: 10px;
+}
+.benvenuto p { margin: 0; font-size: 15px; }
+
+/* ---------- piano ---------- */
+.cifre { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; }
+.cifra {
+  padding: 14px 12px; border-radius: 14px; background: var(--pagina); box-shadow: var(--ombra);
+  display: grid; gap: 2px;
+}
+.cifra b {
+  font: 600 26px/1.1 var(--f-testo); font-variation-settings: "opsz" 48;
+  font-variant-numeric: tabular-nums lining-nums;
+}
+.cifra span { font-size: 12px; color: var(--grigio); line-height: 1.3; }
+.previsione { margin: 0; color: var(--grigio); font-size: 14px; }
+.blocchi { display: grid; gap: 8px; }
+.blocco { background: var(--pagina); border-radius: 14px; box-shadow: var(--ombra); overflow: hidden; }
+.blocco summary {
+  list-style: none; cursor: pointer;
+  display: grid; grid-template-columns: 1fr auto; align-items: center; gap: 4px 12px;
+  padding: 14px 16px;
+}
+.blocco summary::-webkit-details-marker { display: none; }
+.blocco summary strong { font: 600 17px/1.25 var(--f-testo); font-variation-settings: "opsz" 24; min-width: 0; }
+.blocco summary .conta { font-size: 13px; color: var(--grigio); font-variant-numeric: tabular-nums; }
+.blocco summary .mini { grid-column: 1 / -1; height: 3px; background: var(--filo); border-radius: 3px; overflow: hidden; }
+.blocco summary .mini span { display: block; height: 100%; background: var(--lapis); }
+.giorni { list-style: none; margin: 0; padding: 0 8px 8px; display: grid; }
+.giorni button {
+  width: 100%; border: 0; background: none; text-align: left;
+  display: grid; grid-template-columns: 2.6rem minmax(0, 1fr) 22px; align-items: center; gap: 10px;
+  padding: 10px 8px; border-radius: 10px;
+}
+.giorni button:hover { background: var(--lapis-tenue); }
+.giorni .n { font: 600 14px/1 var(--f-ui); color: var(--grigio); font-variant-numeric: tabular-nums; }
+.giorni .cosa { display: grid; min-width: 0; }
+.giorni .cosa b { font-weight: 600; font-size: 15px; }
+.giorni .cosa span { font-size: 13px; color: var(--grigio); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.spunta {
+  width: 22px; height: 22px; border-radius: 50%; border: 1.5px solid var(--filo);
+  display: grid; place-items: center; color: var(--su-lapis);
+}
+.spunta.si { background: var(--lapis); border-color: var(--lapis); }
+.spunta svg { width: 14px; height: 14px; }
+.giorni .attuale { background: var(--lapis-tenue); }
+
+/* ---------- bibbia ---------- */
+.cerca { display: flex; gap: 8px; }
+.cerca input {
+  flex: 1; min-width: 0; min-height: 46px; padding: 10px 14px;
+  border-radius: 12px; border: 1px solid var(--filo); background: var(--pagina);
+}
+.testamento { display: grid; gap: 10px; }
+.libri { display: grid; grid-template-columns: repeat(auto-fill, minmax(9.5rem, 1fr)); gap: 8px; }
+.libri button {
+  border: 0; background: var(--pagina); box-shadow: var(--ombra); border-radius: 12px;
+  padding: 12px; text-align: left; display: grid; gap: 2px; min-width: 0;
+}
+.libri b { font: 600 16px/1.2 var(--f-testo); font-variation-settings: "opsz" 20; }
+.libri span { font-size: 12px; color: var(--grigio); }
+.capitoli { display: grid; grid-template-columns: repeat(auto-fill, minmax(3.1rem, 1fr)); gap: 8px; }
+.capitoli button {
+  aspect-ratio: 1; max-width: 100%; border: 0; border-radius: 12px; background: var(--pagina); box-shadow: var(--ombra);
+  font: 600 16px/1 var(--f-ui); font-variant-numeric: tabular-nums;
+}
+.desc-libro { margin: 0; font: 400 17px/1.5 var(--f-testo); color: var(--grigio); }
+.risultati { display: grid; gap: 8px; }
+.risultati button {
+  border: 0; background: var(--pagina); box-shadow: var(--ombra); border-radius: 12px;
+  padding: 12px 14px; text-align: left; display: grid; gap: 4px;
+}
+.risultati b { font-size: 13px; color: var(--rubrica); }
+.risultati span { font: 400 16px/1.45 var(--f-testo); }
+.risultati mark { background: color-mix(in srgb, var(--lapis) 22%, transparent); color: inherit; border-radius: 2px; }
+.indietro {
+  border: 0; background: none; padding: 6px 0; color: var(--lapis);
+  font: 600 15px/1.2 var(--f-ui); display: inline-flex; align-items: center; gap: 4px; justify-self: start;
+}
+.indietro svg { width: 18px; height: 18px; }
+
+/* ---------- opzioni ---------- */
+.opzioni { display: grid; gap: 14px; }
+.opz {
+  background: var(--pagina); border-radius: 14px; box-shadow: var(--ombra);
+  padding: 16px; display: grid; gap: 12px;
+}
+.opz h2 { font: 600 16px/1.3 var(--f-ui); }
+.opz p { margin: 0; font-size: 14px; color: var(--grigio); }
+.scelte { display: flex; flex-wrap: wrap; gap: 8px; }
+.scelte button[aria-pressed="true"] { background: var(--lapis); border-color: var(--lapis); color: var(--su-lapis); }
+.scala { display: grid; grid-template-columns: auto 1fr auto; align-items: center; gap: 12px; }
+.scala input { width: 100%; accent-color: var(--lapis); }
+.anteprima { font: 400 var(--dim)/1.6 var(--f-testo); margin: 0; }
+.opz textarea {
+  width: 100%; min-height: 90px; padding: 10px; border-radius: 10px; border: 1px solid var(--filo);
+  background: var(--carta); font: 12px/1.4 ui-monospace, Menlo, Consolas, monospace;
+}
+.conferma { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; }
+.stato-sync { display: flex; align-items: center; gap: 8px; font-size: 14px; }
+.stato-sync i { width: 9px; height: 9px; border-radius: 50%; background: var(--grigio); flex: none; }
+.stato-sync i.ok { background: #3a8f5c; }
+
+/* ---------- barra in basso ---------- */
+.barra {
+  position: fixed; left: 0; right: 0; bottom: 0; z-index: 20;
+  background: color-mix(in srgb, var(--carta) 92%, transparent);
+  -webkit-backdrop-filter: blur(12px); backdrop-filter: blur(12px);
+  border-top: 1px solid var(--filo);
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+  padding-left: max(8px, env(safe-area-inset-left, 0px));
+  padding-right: max(8px, env(safe-area-inset-right, 0px));
+}
+.barra nav { max-width: 44rem; margin: 0 auto; display: grid; grid-template-columns: repeat(5, 1fr); height: var(--barra); }
+.barra button {
+  border: 0; background: none; color: var(--grigio);
+  display: grid; place-items: center; align-content: center; gap: 3px;
+  font: 600 11px/1 var(--f-ui); letter-spacing: .01em;
+  -webkit-tap-highlight-color: transparent;
+}
+.barra button svg { width: 24px; height: 24px; }
+.barra button[aria-current="page"] { color: var(--lapis); }
+
+.avviso {
+  position: fixed; left: 50%; transform: translateX(-50%);
+  bottom: calc(var(--barra) + 16px + env(safe-area-inset-bottom, 0px));
+  background: var(--inchiostro); color: var(--carta);
+  padding: 10px 16px; border-radius: 999px; font-size: 14px; font-weight: 600;
+  z-index: 30; max-width: calc(100% - 32px); text-align: center;
+}
+.caricamento { color: var(--grigio); font-style: italic; font-family: var(--f-testo); }
+.errore { padding: 14px; border-radius: 12px; background: var(--lapis-tenue); display: grid; gap: 10px; }
+
+.fine-anno {
+  padding: 22px; border-radius: 16px; background: var(--pagina); box-shadow: var(--ombra); display: grid; gap: 10px;
+}
+
+/* ---------- evidenziatore ---------- */
+.sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+mark.ev {
+  color: inherit;
+  background: linear-gradient(transparent 36%, var(--evc) 36%, var(--evc) 92%, transparent 92%);
+  -webkit-box-decoration-break: clone; box-decoration-break: clone;
+  border-radius: 2px; cursor: pointer;
+}
+.ev-giallo { --evc: var(--ev-giallo); }
+.ev-verde { --evc: var(--ev-verde); }
+.ev-azzurro { --evc: var(--ev-azzurro); }
+.ev-rosa { --evc: var(--ev-rosa); }
+.suggerimento { margin: 0; display: flex; gap: 8px; align-items: flex-start; font-size: 14px; color: var(--grigio); }
+.suggerimento svg { width: 18px; height: 18px; flex: none; margin-top: 2px; color: var(--rubrica); }
+.azioni {
+  position: fixed; left: 0; right: 0; z-index: 25;
+  bottom: calc(var(--barra) + env(safe-area-inset-bottom, 0px));
+  padding-block: 10px 12px;
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+  background: var(--pagina); border-top: 1px solid var(--filo);
+  box-shadow: 0 -8px 24px rgb(0 0 0 / .08);
+}
+.azioni-dentro { max-width: 44rem; margin: 0 auto; display: grid; gap: 10px; }
+.azioni-riga { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+.azioni-ref { flex: 1; min-width: 0; font: 700 15px/1.25 var(--f-ui); color: var(--rubrica); }
+.azioni-et { font-size: 13px; font-weight: 600; color: var(--grigio); }
+.pastelli { display: flex; gap: 10px; }
+.pastello {
+  width: 36px; height: 36px; border-radius: 50%; border: 0; padding: 0;
+  background: var(--evc); box-shadow: inset 0 0 0 1px rgb(0 0 0 / .14);
+}
+.pastello[aria-pressed="true"] { box-shadow: 0 0 0 2px var(--pagina), 0 0 0 4px var(--lapis); }
+.chiudi {
+  border: 0; background: none; width: 40px; height: 40px; border-radius: 50%;
+  display: grid; place-items: center; color: var(--grigio);
+}
+.chiudi svg { width: 20px; height: 20px; }
+.velo { position: fixed; inset: 0; z-index: 40; background: rgb(10 12 18 / .45); display: grid; align-items: end; }
+.foglio {
+  width: 100%; max-width: 44rem; margin: 0 auto; max-height: 88vh; overflow-y: auto;
+  background: var(--pagina); border-radius: 18px 18px 0 0;
+  padding-block: 16px calc(18px + env(safe-area-inset-bottom, 0px));
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+  display: grid; gap: 14px;
+}
+.ev-cit { margin: 0; font: 400 19px/1.55 var(--f-testo); font-variation-settings: "opsz" 20; }
+.ev-commento { display: grid; gap: 6px; }
+.ev-commento label { font: 600 14px/1.3 var(--f-ui); }
+.ev-commento textarea {
+  width: 100%; min-height: 84px; resize: vertical; padding: 10px 12px; border-radius: 12px;
+  border: 1px solid var(--filo); background: var(--carta); font: 400 16px/1.45 var(--f-testo);
+}
+.ev-strumenti { display: grid; gap: 10px; }
+.ev-filtri { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
+.ev-filtri select, .ev-cerca {
+  width: 100%; min-width: 0; min-height: 44px; padding: 8px 12px;
+  border-radius: 12px; border: 1px solid var(--filo); background: var(--pagina);
+}
+.ev-lista { display: grid; gap: 12px; }
+.ev-scheda { background: var(--pagina); border-radius: 14px; box-shadow: var(--ombra); padding: 16px; display: grid; gap: 10px; }
+.ev-testa { display: flex; justify-content: space-between; align-items: center; gap: 10px; flex-wrap: wrap; }
+.ev-ref { font: 700 14px/1.25 var(--f-ui); color: var(--rubrica); }
+.ev-data { font-size: 12px; color: var(--grigio); }
+.ev-piede { display: flex; justify-content: space-between; align-items: center; gap: 10px; flex-wrap: wrap; }
+.ev-piede .pastello { width: 28px; height: 28px; }
+.vuoto { padding: 20px; border-radius: 14px; background: var(--pagina); box-shadow: var(--ombra); display: grid; gap: 12px; }
+.vuoto p { margin: 0; }
+
+@media (prefers-reduced-motion: no-preference) {
+  .vista { animation: entra .22s ease-out; }
+  @keyframes entra { from { opacity: .4; transform: translateY(4px); } to { opacity: 1; transform: none; } }
+}
+@media (min-width: 640px) {
+  .app { padding-block-start: 28px; }
+  .cifre { gap: 14px; }
+}
+</style>
+</head>
+<body>
+
+<div class="app" id="app" aria-live="polite">
+  <div class="vista"><p class="caricamento">Apro la Bibbia…</p></div>
+</div>
+
+<div class="barra">
+  <nav aria-label="Sezioni">
+    <button type="button" data-vai="oggi" id="nav-oggi">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 3h12v18l-6-4-6 4z"/></svg>
+      Oggi
+    </button>
+    <button type="button" data-vai="piano" id="nav-piano">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3.5" y="5" width="17" height="15" rx="2.5"/><path d="M8 3v4M16 3v4M3.5 10h17M8 14h2M14 14h2M8 17h2"/></svg>
+      Piano
+    </button>
+    <button type="button" data-vai="bibbia" id="nav-bibbia">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 5.5A2.5 2.5 0 0 1 6.5 3H20v15H6.5A2.5 2.5 0 0 0 4 20.5z"/><path d="M4 20.5A2.5 2.5 0 0 0 6.5 23H20v-5M12 7v6M9.5 9.5h5"/></svg>
+      Bibbia
+    </button>
+    <button type="button" data-vai="evidenziati" id="nav-evidenziati">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14.5 4.5l5 5-8 8H6.5v-5z"/><path d="M12 7l5 5M4 21h9"/></svg>
+      Evidenziati
+    </button>
+    <button type="button" data-vai="opzioni" id="nav-opzioni">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 7h10M18 7h2M4 17h4M12 17h8"/><circle cx="16" cy="7" r="2"/><circle cx="10" cy="17" r="2"/></svg>
+      Opzioni
+    </button>
+  </nav>
+</div>
+
+<div class="azioni" id="azioni" hidden role="region" aria-label="Evidenziatore">
+  <div class="azioni-dentro">
+    <div class="azioni-riga">
+      <span class="azioni-ref" id="azioni-ref"></span>
+      <button class="chiudi" type="button" id="azioni-chiudi" aria-label="Annulla la scelta">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg>
+      </button>
+    </div>
+    <div class="azioni-riga">
+      <span class="azioni-et">Evidenzia</span>
+      <div class="pastelli" id="azioni-colori"></div>
+      <button class="btn piccolo" type="button" id="azioni-copia">Copia</button>
+    </div>
+  </div>
+</div>
+
+<script>
+(() => {
+'use strict';
+
+/* ================= utilità ================= */
+const $ = (s, el = document) => el.querySelector(s);
+const app = $('#app');
+const esc = s => String(s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+const ls = {
+  get(k, d) { try { const v = localStorage.getItem(k); return v ? JSON.parse(v) : d; } catch (e) { return d; } },
+  set(k, v) { try { localStorage.setItem(k, JSON.stringify(v)); } catch (e) { /* memoria non disponibile */ } },
+};
+const oggiISO = () => { const d = new Date(); return new Date(d.getTime() - d.getTimezoneOffset() * 6e4).toISOString().slice(0, 10); };
+const MESI = ['gennaio','febbraio','marzo','aprile','maggio','giugno','luglio','agosto','settembre','ottobre','novembre','dicembre'];
+const dataLunga = iso => { const [a, m, g] = iso.slice(0, 10).split('-').map(Number); return `${g} ${MESI[m - 1]} ${a}`; };
+const dataBreve = iso => { const [, m, g] = iso.slice(0, 10).split('-').map(Number); return `${g} ${MESI[m - 1]}`; };
+const ICONA = {
+  spunta: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>',
+  sx: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg>',
+  dx: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg>',
+  copia: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V6a2 2 0 0 1 2-2h9"/></svg>',
+  x: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg>',
+  penna: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14.5 4.5l5 5-8 8H6.5v-5z"/><path d="M12 7l5 5M4 21h9"/></svg>',
+};
+let timerAvviso;
+function avviso(msg) {
+  let el = $('.avviso');
+  if (!el) { el = document.createElement('div'); el.className = 'avviso'; el.setAttribute('role', 'status'); document.body.append(el); }
+  el.textContent = msg; el.hidden = false;
+  clearTimeout(timerAvviso); timerAvviso = setTimeout(() => { el.hidden = true; }, 2600);
+}
+
+/* ================= dati ================= */
+let LIBRI = [], PIANO = [], RIFL = [];
+const LIB = {};      // id -> libro
+const cacheLibri = new Map();
+function libro(id) {
+  if (!cacheLibri.has(id)) {
+    const p = fetch(`data/libri/${id}.json`).then(r => { if (!r.ok) throw new Error('HTTP ' + r.status); return r.json(); });
+    p.catch(() => cacheLibri.delete(id));
+    cacheLibri.set(id, p);
+  }
+  return cacheLibri.get(id);
+}
+const POESIA = new Set(['PSA', 'PRO', 'SNG', 'LAM']);
+
+// "Sal 119,1-88" / "Genesi 1–3"
+function citaSeg(seg, lungo) {
+  const [b, c1, v1, c2, v2] = seg; const L = LIB[b];
+  const nome = lungo ? L.nome : L.abbr;
+  const intero = (c, a, z) => a === 1 && z === L.versetti[c - 1];
+  if (L.versetti.length === 1) return intero(1, v1, v2) ? nome : `${nome} ${v1}-${v2}`;
+  if (c1 === c2) return intero(c1, v1, v2) ? `${nome} ${c1}` : `${nome} ${c1},${v1}-${v2}`;
+  const a = v1 === 1 ? `${c1}` : `${c1},${v1}`;
+  const z = v2 === L.versetti[c2 - 1] ? `${c2}` : `${c2},${v2}`;
+  return `${nome} ${a}–${z}`;
+}
+const citaGiorno = (p, lungo) => p.seg.map(s => citaSeg(s, lungo)).join(' · ');
+const minuti = p => Math.max(3, Math.round(p.parole / 190));
+
+/* ================= stato: progressi, note, impostazioni ================= */
+const K_STATO = 'bibbia365.stato', K_NOTE = 'bibbia365.note', K_IMP = 'bibbia365.impostazioni', K_POS = 'bibbia365.posizione';
+let stato = ls.get(K_STATO, null) || { fatti: {}, ts: 0 };
+let note = ls.get(K_NOTE, {});
+let imp = Object.assign({ dim: 19, tema: 'auto', numeri: true, righe: 'auto', benvenuto: true }, ls.get(K_IMP, {}));
+
+const fatto = g => Boolean(stato.fatti[g]);
+const contaFatti = () => Object.keys(stato.fatti).length;
+const giornoCorrente = () => { for (let g = 1; g <= 365; g++) if (!fatto(g)) return g; return 365; };
+
+function serie() {
+  const giorni = new Set(Object.values(stato.fatti).map(d => d.slice(0, 10)));
+  const d = new Date(); let n = 0;
+  const iso = x => new Date(x.getTime() - x.getTimezoneOffset() * 6e4).toISOString().slice(0, 10);
+  if (!giorni.has(iso(d))) d.setDate(d.getDate() - 1);
+  while (giorni.has(iso(d))) { n++; d.setDate(d.getDate() - 1); }
+  return n;
+}
+
+// sincronizzazione con l'account Claude (capability db), se disponibile
+const remoto = { db: null, uid: null, coda: new Map() };
+const refRemoto = nome => remoto.db.doc(`data/users/${remoto.uid}/${nome}`);
+function inCoda(nome, fai) {
+  if (!remoto.db) return Promise.resolve(false);
+  const prima = remoto.coda.get(nome) || Promise.resolve();
+  const dopo = prima.then(fai).then(() => true, () => { remoto.errore = true; return false; });
+  remoto.coda.set(nome, dopo);
+  return dopo;
+}
+const scriviRemoto = (nome, dati) => inCoda(nome, () => refRemoto(nome).set(dati));
+const cancellaRemoto = nome => inCoda(nome, () => refRemoto(nome).delete());
+function salvaStato() {
+  stato.ts = Date.now();
+  ls.set(K_STATO, stato);
+  scriviRemoto('progresso', { fatti: stato.fatti, ts: stato.ts });
+}
+async function collegaRemoto() {
+  const c = window.claude;
+  if (!c || typeof c.use !== 'function') return;
+  try {
+    const [db, user] = await Promise.all([c.use('db'), c.use('user')]);
+    if (!db || !user) return;
+    const uid = await user.id();
+    if (!uid) return;
+    remoto.db = db; remoto.uid = uid;
+    const snap = await refRemoto('progresso').get();
+    const r = snap.exists ? snap.data() : null;
+    if (r && (r.ts || 0) > (stato.ts || 0)) {
+      stato = { fatti: Object.assign({}, r.fatti || {}), ts: r.ts };
+      ls.set(K_STATO, stato);
+      if (vista.nome !== 'opzioni') mostra(vista, { senzaScroll: true });
+    } else if ((stato.ts || 0) > ((r && r.ts) || 0)) {
+      await scriviRemoto('progresso', { fatti: stato.fatti, ts: stato.ts });
+    }
+    remoto.pronto = true;
+    await sincronizzaEv().catch(() => {});
+    if (vista.nome === 'opzioni' || vista.nome === 'evidenziati') mostra(vista, { senzaScroll: true });
+    else aggiornaVersi();
+    if (vista.nome === 'giorno') caricaNotaRemota(vista.g);
+  } catch (e) { remoto.db = null; }
+}
+async function caricaNotaRemota(g) {
+  if (!remoto.db) return;
+  try {
+    const snap = await refRemoto('nota-' + g).get();
+    if (!snap.exists) return;
+    const r = snap.data();
+    const loc = note[g];
+    if (!loc || (r.ts || 0) > (loc.ts || 0)) {
+      note[g] = { t: r.t || '', ts: r.ts || 0 };
+      ls.set(K_NOTE, note);
+      const ta = $('#nota');
+      if (ta && vista.nome === 'giorno' && vista.g === g && document.activeElement !== ta) ta.value = note[g].t;
+    }
+  } catch (e) { /* resta la copia locale */ }
+}
+
+function applicaImpostazioni() {
+  const r = document.documentElement;
+  r.classList.remove('t-chiaro', 't-seppia', 't-notte');
+  if (imp.tema !== 'auto') r.classList.add('t-' + imp.tema);
+  r.style.setProperty('--dim', imp.dim + 'px');
+}
+function salvaImp() { ls.set(K_IMP, imp); applicaImpostazioni(); }
+
+/* ================= navigazione ================= */
+let vista = { nome: 'oggi' };
+function daHash(h) {
+  h = (h || '').replace(/^#/, '');
+  let m;
+  if (h === 'piano' || h === 'bibbia' || h === 'opzioni' || h === 'evidenziati') return { nome: h };
+  if ((m = h.match(/^g(\d{1,3})$/)) && +m[1] >= 1 && +m[1] <= 365) return { nome: 'giorno', g: +m[1] };
+  if ((m = h.match(/^libro-([0-9A-Z]{3})$/)) && LIB[m[1]]) return { nome: 'libro', b: m[1] };
+  if ((m = h.match(/^cap-([0-9A-Z]{3})-(\d+)(?:-(\d+))?$/)) && LIB[m[1]] && +m[2] <= LIB[m[1]].versetti.length) return { nome: 'capitolo', b: m[1], c: +m[2], v: m[3] ? +m[3] : 0 };
+  return { nome: 'oggi' };
+}
+function aHash(v) {
+  if (v.nome === 'giorno') return 'g' + v.g;
+  if (v.nome === 'libro') return 'libro-' + v.b;
+  if (v.nome === 'capitolo') return `cap-${v.b}-${v.c}` + (v.v ? '-' + v.v : '');
+  return v.nome;
+}
+function vai(v) {
+  try { history.pushState(null, '', '#' + aHash(v)); } catch (e) { /* cornice senza cronologia */ }
+  mostra(v);
+}
+window.addEventListener('popstate', () => mostra(daHash(location.hash)));
+document.querySelector('.barra').addEventListener('click', e => {
+  const b = e.target.closest('[data-vai]'); if (!b) return;
+  vai({ nome: b.dataset.vai });
+});
+
+let salvaPosTimer;
+window.addEventListener('scroll', () => {
+  if (vista.nome !== 'giorno') return;
+  clearTimeout(salvaPosTimer);
+  salvaPosTimer = setTimeout(() => ls.set(K_POS, { g: vista.g, y: Math.round(window.scrollY) }), 400);
+}, { passive: true });
+
+function mostra(v, opt = {}) {
+  if (v.nome === 'oggi') v = { nome: 'giorno', g: giornoCorrente(), daOggi: true };
+  vista = v;
+  chiudiAzioni(); chiudiFoglio();
+  const tab = { giorno: 'oggi', piano: 'piano', bibbia: 'bibbia', libro: 'bibbia', capitolo: 'bibbia', evidenziati: 'evidenziati', opzioni: 'opzioni' }[v.nome];
+  document.querySelectorAll('.barra [data-vai]').forEach(b => {
+    if (b.dataset.vai === tab && (tab !== 'oggi' || v.daOggi || v.g === giornoCorrente())) b.setAttribute('aria-current', 'page');
+    else b.removeAttribute('aria-current');
+  });
+  const r = { giorno: vistaGiorno, piano: vistaPiano, bibbia: vistaBibbia, libro: vistaLibro, capitolo: vistaCapitolo, evidenziati: vistaEvidenziati, opzioni: vistaOpzioni }[v.nome](v, opt);
+  if (!opt.senzaScroll && !r?.scrollGestito) window.scrollTo(0, 0);
+}
+
+/* ================= rendering del testo ================= */
+const ATTACCHI = /^(Or |Ora |Poi |Allora |E avvenne|Avvenne|Dopo |In quel tempo|In quei giorni|Quando |Così |E Gesù |Gesù |Ed ecco|Ecco )/;
+function paragrafi(vv, da) {
+  const out = []; let cur = [];
+  vv.forEach((t, i) => {
+    const prima = i > 0 ? vv[i - 1] : '';
+    const chiude = /[.!?”’»]\s*$/.test(prima);
+    if (cur.length && chiude && ((cur.length >= 3 && ATTACCHI.test(t)) || cur.length >= 6)) { out.push(cur); cur = []; }
+    cur.push({ n: da + i, t });
+  });
+  if (cur.length) out.push(cur);
+  return out;
+}
+function htmlCapitolo(b, c, testo, a, z, mostraNum) {
+  const vv = testo.slice(a - 1, z);
+  const righe = imp.righe === 'sempre' || (imp.righe === 'auto' && POESIA.has(b));
+  const gruppi = righe ? vv.map((t, i) => [{ n: a + i, t }]) : paragrafi(vv, a);
+  const capn = mostraNum ? `<span class="capn" aria-label="Capitolo ${c}">${c}</span>` : '';
+  const lista = evVivi();
+  return `<section class="cap" aria-label="${esc(LIB[b].nome)} capitolo ${c}">` + gruppi.map((gr, i) =>
+    `<p>${i === 0 ? capn : ''}${gr.map(v => `<span class="v" id="v-${b}-${c}-${v.n}" data-b="${b}" data-c="${c}" data-v="${v.n}"><sup class="vn">${v.n}</sup><span class="vt">${htmlVerso(v.t, segmentiVerso(lista, b, c, v.n, v.t.length))}</span> </span>`).join('')}</p>`
+  ).join('') + '</section>';
+}
+async function htmlSegmenti(seg) {
+  const parti = [];
+  for (const [b, c1, v1, c2, v2] of seg) {
+    const t = await libro(b);
+    parti.push(`<h2 class="libro-tit">${esc(LIB[b].nome)}</h2>`);
+    for (let c = c1; c <= c2; c++) {
+      const a = c === c1 ? v1 : 1, z = c === c2 ? v2 : t[c - 1].length;
+      parti.push(htmlCapitolo(b, c, t[c - 1], a, z, true));
+    }
+  }
+  return parti.join('');
+}
+function classiTesto() { return 'testo' + (imp.numeri ? '' : ' senza-numeri') + (imp.righe === 'sempre' ? ' righe' : ''); }
+function erroreTesto(dove, riprova) {
+  dove.innerHTML = `<div class="errore"><p>Non riesco a caricare il testo. Controlla la connessione e riprova.</p><button class="btn piccolo" type="button">Riprova</button></div>`;
+  dove.querySelector('button').onclick = riprova;
+}
+
+/* ================= vista: giorno ================= */
+function vistaGiorno(v) {
+  const g = v.g, p = PIANO[g - 1], r = RIFL[g - 1] || null;
+  const fattoIl = stato.fatti[g];
+  const n = contaFatti();
+  const benvenuto = imp.benvenuto && n === 0 && g === 1;
+  app.innerHTML = `<article class="vista giorno">
+    ${benvenuto ? `<div class="benvenuto">
+      <p class="occhiello">Come funziona</p>
+      <p>Una lettura al giorno, circa 10 minuti: in 365 letture leggi tutta la Bibbia, dalla Genesi all’Apocalisse. Prima del testo trovi due righe per orientarti, dopo uno spunto per la vita di oggi.</p>
+      <p>Se salti un giorno non resti indietro: l’app riparte sempre dalla prima lettura che non hai segnato.</p>
+      <div><button class="btn piccolo" type="button" id="chiudi-benvenuto">Ho capito</button></div>
+    </div>` : ''}
+    <header class="testata">
+      <div class="nastro" aria-hidden="true">${g}</div>
+      <p class="occhiello">Giorno ${g} di 365 · ${esc(p.blocco)}</p>
+      <h1 class="titolo">${esc(r ? r.t : citaGiorno(p, true))}</h1>
+      <p class="passi"><strong>${esc(citaGiorno(p, true))}</strong><span>circa ${minuti(p)} minuti</span>${fattoIl ? `<span>letto il ${dataBreve(fattoIl)}</span>` : ''}</p>
+      <div class="avanzamento" role="progressbar" aria-label="Bibbia letta" aria-valuemin="0" aria-valuemax="365" aria-valuenow="${n}"><span style="width:${(n / 365 * 100).toFixed(2)}%"></span></div>
+    </header>
+    ${r ? `<section class="breve"><h2 class="sez-titolo">In breve</h2><p>${esc(r.b)}</p></section>` : ''}
+    ${evVivi().length ? '' : `<p class="suggerimento">${ICONA.penna}<span>Tocca un versetto per evidenziarlo, oppure tieni premuto e trascina per scegliere solo una frase.</span></p>`}
+    <div class="${classiTesto()}" id="testo"><p class="caricamento">Carico il testo…</p></div>
+    ${r ? `<div class="spunti">
+      <section class="spunto"><h2 class="sez-titolo">Oggi</h2><p>${esc(r.o)}</p></section>
+      <section class="spunto"><h2 class="sez-titolo">Per vivere meglio</h2><p>${esc(r.p)}</p></section>
+      <figure class="portare" id="portare" hidden></figure>
+      <p class="nota-avviso">Gli spunti sono riflessioni personali per collegare il testo alla vita di oggi: non fanno parte della Bibbia.</p>
+    </div>` : ''}
+    <div class="nota">
+      <label for="nota">I tuoi pensieri</label>
+      <textarea id="nota" placeholder="Una frase che ti ha colpito, una domanda, un proposito per oggi…">${esc((note[g] && note[g].t) || '')}</textarea>
+      <small id="nota-stato">${remoto.db ? 'Si salva da sola, nel tuo account.' : 'Si salva da sola, su questo dispositivo.'}</small>
+    </div>
+    <button class="btn grande ${fattoIl ? 'fatto-si' : 'primario'}" type="button" id="segna">${fattoIl ? ICONA.spunta + ' Letto · tocca per annullare' : 'Segna come letto'}</button>
+    <nav class="prevnext" aria-label="Altri giorni">
+      <button class="btn" type="button" id="prec" ${g === 1 ? 'disabled' : ''}>${ICONA.sx} Giorno ${Math.max(1, g - 1)}</button>
+      <button class="btn" type="button" id="succ" ${g === 365 ? 'disabled' : ''}>Giorno ${Math.min(365, g + 1)} ${ICONA.dx}</button>
+    </nav>
+  </article>`;
+
+  const chiudi = $('#chiudi-benvenuto');
+  if (chiudi) chiudi.onclick = () => { imp.benvenuto = false; salvaImp(); chiudi.closest('.benvenuto').remove(); };
+  $('#prec').onclick = () => vai({ nome: 'giorno', g: g - 1 });
+  $('#succ').onclick = () => vai({ nome: 'giorno', g: g + 1 });
+  $('#segna').onclick = () => {
+    if (stato.fatti[g]) { delete stato.fatti[g]; salvaStato(); mostra(vista, { senzaScroll: true }); avviso('Lettura segnata come da fare'); return; }
+    stato.fatti[g] = new Date().toISOString();
+    salvaStato();
+    const s = serie();
+    avviso(contaFatti() === 365 ? 'Hai letto tutta la Bibbia.' : s > 1 ? `Fatto. ${s} giorni di fila.` : 'Fatto. A domani.');
+    mostra(vista, { senzaScroll: true });
+  };
+
+  const ta = $('#nota'); let tNota;
+  ta.addEventListener('input', () => {
+    note[g] = { t: ta.value, ts: Date.now() };
+    ls.set(K_NOTE, note);
+    clearTimeout(tNota);
+    tNota = setTimeout(() => { scriviRemoto('nota-' + g, note[g]); $('#nota-stato').textContent = 'Salvato.'; }, 900);
+  });
+  caricaNotaRemota(g);
+
+  const box = $('#testo');
+  const carica = () => {
+    htmlSegmenti(p.seg).then(h => {
+      if (vista.g !== g || vista.nome !== 'giorno') return;
+      box.innerHTML = h;
+      const pos = ls.get(K_POS, null);
+      if (pos && pos.g === g && pos.y > 200 && !fattoIl) window.scrollTo(0, pos.y);
+    }).catch(() => erroreTesto(box, carica));
+  };
+  carica();
+  if (r && r.v) mostraVersetto(r.v, $('#portare'));
+  return { scrollGestito: false };
+}
+
+async function mostraVersetto(ref, fig) {
+  const [b, c, a, z] = ref;
+  try {
+    const t = await libro(b);
+    const fine = z || a;
+    const testo = t[c - 1].slice(a - 1, fine).join(' ');
+    const cita = `${LIB[b].abbr} ${c},${a}${fine > a ? '-' + fine : ''}`;
+    fig.innerHTML = `<p class="sez-titolo">Da portare con te</p><blockquote>${esc(testo)}</blockquote>
+      <figcaption><span>${esc(cita)}</span><button class="btn piccolo" type="button">${ICONA.copia} Copia</button></figcaption>`;
+    fig.hidden = false;
+    fig.querySelector('button').onclick = () => copia(`«${testo}» (${cita})`, fig.querySelector('blockquote'));
+  } catch (e) { /* senza versetto: il resto resta leggibile */ }
+}
+function copia(testo, el) {
+  const fallback = () => {
+    const s = getSelection(), r = document.createRange();
+    r.selectNodeContents(el); s.removeAllRanges(); s.addRange(r);
+    avviso('Testo selezionato: tienilo premuto per copiarlo');
+  };
+  try {
+    navigator.clipboard.writeText(testo).then(() => avviso('Copiato'), fallback);
+  } catch (e) { fallback(); }
+}
+
+/* ================= vista: piano ================= */
+function vistaPiano() {
+  const n = contaFatti(), cor = giornoCorrente(), s = serie();
+  const restano = 365 - n;
+  let prev = '';
+  if (restano === 0) prev = 'Hai completato il piano. Puoi ricominciare quando vuoi dalle Opzioni.';
+  else {
+    const f = new Date(); f.setDate(f.getDate() + restano - (stato.fatti && Object.values(stato.fatti).some(d => d.slice(0, 10) === oggiISO()) ? 0 : 1));
+    prev = `Con una lettura al giorno finisci il ${dataLunga(new Date(f.getTime() - f.getTimezoneOffset() * 6e4).toISOString())}.`;
+  }
+  const blocchi = [];
+  PIANO.forEach(p => {
+    let bl = blocchi[blocchi.length - 1];
+    if (!bl || bl.titolo !== p.blocco) blocchi.push(bl = { titolo: p.blocco, giorni: [] });
+    bl.giorni.push(p);
+  });
+  app.innerHTML = `<section class="vista">
+    <header class="testata" style="padding-right:0">
+      <p class="occhiello">Il piano</p>
+      <h1 class="titolo">Tutta la Bibbia in 365 letture</h1>
+    </header>
+    <div class="cifre">
+      <div class="cifra"><b>${n}</b><span>letture fatte su 365</span></div>
+      <div class="cifra"><b>${Math.round(n / 365 * 100)}%</b><span>della Bibbia letta</span></div>
+      <div class="cifra"><b>${s}</b><span>${s === 1 ? 'giorno di fila' : 'giorni di fila'}</span></div>
+    </div>
+    <p class="previsione">${esc(prev)} L’ordine alterna Antico e Nuovo Testamento, Salmi e Proverbi, così i libri più impegnativi non durano settimane di fila.</p>
+    <div class="blocchi">${blocchi.map(bl => {
+      const f = bl.giorni.filter(p => fatto(p.g)).length;
+      const aperto = bl.giorni.some(p => p.g === cor);
+      return `<details class="blocco" ${aperto ? 'open' : ''}>
+        <summary><strong>${esc(bl.titolo)}</strong><span class="conta">${f}/${bl.giorni.length}</span>
+          <span class="mini"><span style="width:${(f / bl.giorni.length * 100).toFixed(1)}%"></span></span></summary>
+        <ol class="giorni">${bl.giorni.map(p => {
+          const r = RIFL[p.g - 1];
+          return `<li><button type="button" data-g="${p.g}" class="${p.g === cor ? 'attuale' : ''}">
+            <span class="n">${p.g}</span>
+            <span class="cosa"><b>${esc(citaGiorno(p, false))}</b><span>${esc(r ? r.t : '')}</span></span>
+            <span class="spunta ${fatto(p.g) ? 'si' : ''}">${fatto(p.g) ? ICONA.spunta : ''}</span>
+          </button></li>`;
+        }).join('')}</ol>
+      </details>`;
+    }).join('')}</div>
+  </section>`;
+  app.querySelector('.blocchi').addEventListener('click', e => {
+    const b = e.target.closest('[data-g]'); if (b) vai({ nome: 'giorno', g: +b.dataset.g });
+  });
+}
+
+/* ================= vista: bibbia ================= */
+const normalizza = s => s.normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/[’‘`]/g, "'").toLowerCase();
+let ultimaRicerca = '';
+function vistaBibbia() {
+  const elenco = at => LIBRI.filter(l => l.at === at).map(l =>
+    `<button type="button" data-b="${l.id}"><b>${esc(l.nome)}</b><span>${l.versetti.length === 1 ? '1 capitolo' : l.versetti.length + ' capitoli'}</span></button>`).join('');
+  app.innerHTML = `<section class="vista">
+    <header class="testata" style="padding-right:0">
+      <p class="occhiello">Riveduta 1927 · Giovanni Luzzi</p>
+      <h1 class="titolo">La Bibbia</h1>
+    </header>
+    <form class="cerca" role="search" id="f-cerca">
+      <input id="q" type="search" placeholder="Cerca una parola o una frase" autocomplete="off" value="${esc(ultimaRicerca)}" aria-label="Cerca nella Bibbia">
+      <button class="btn primario" type="submit">Cerca</button>
+    </form>
+    <div id="risultati" class="risultati"></div>
+    <section class="testamento"><h2 class="sez-titolo">Antico Testamento</h2><div class="libri">${elenco(true)}</div></section>
+    <section class="testamento"><h2 class="sez-titolo">Nuovo Testamento</h2><div class="libri">${elenco(false)}</div></section>
+  </section>`;
+  app.querySelectorAll('.libri').forEach(el => el.addEventListener('click', e => {
+    const b = e.target.closest('[data-b]'); if (!b) return;
+    const L = LIB[b.dataset.b];
+    vai(L.versetti.length === 1 ? { nome: 'capitolo', b: L.id, c: 1 } : { nome: 'libro', b: L.id });
+  }));
+  $('#f-cerca').addEventListener('submit', e => { e.preventDefault(); cerca($('#q').value.trim()); });
+  if (ultimaRicerca) cerca(ultimaRicerca);
+}
+async function cerca(q) {
+  ultimaRicerca = q;
+  const out = $('#risultati');
+  if (q.length < 3) { out.innerHTML = q ? '<p class="previsione">Scrivi almeno tre lettere.</p>' : ''; return; }
+  out.innerHTML = '<p class="caricamento">Cerco in tutta la Bibbia…</p>';
+  let testi;
+  try { testi = await Promise.all(LIBRI.map(l => libro(l.id))); }
+  catch (e) { erroreTesto(out, () => cerca(q)); return; }
+  if (ultimaRicerca !== q || !$('#risultati')) return;
+  const nq = normalizza(q), trovati = []; let tot = 0;
+  LIBRI.forEach((l, i) => testi[i].forEach((cap, ci) => cap.forEach((t, vi) => {
+    if (normalizza(t).includes(nq)) { tot++; if (trovati.length < 150) trovati.push([l.id, ci + 1, vi + 1, t]); }
+  })));
+  const evid = t => {
+    const nt = normalizza(t), i = nt.indexOf(nq);
+    if (i < 0 || nt.length !== t.length) return esc(t);
+    return esc(t.slice(0, i)) + '<mark>' + esc(t.slice(i, i + q.length)) + '</mark>' + esc(t.slice(i + q.length));
+  };
+  out.innerHTML = `<p class="previsione">${tot === 0 ? 'Nessun versetto trovato.' : tot === 1 ? '1 versetto trovato.' : `${tot} versetti trovati${tot > trovati.length ? `, mostro i primi ${trovati.length}` : ''}.`}</p>` +
+    trovati.map(([b, c, v, t]) => `<button type="button" data-ref="${b}-${c}-${v}"><b>${esc(LIB[b].abbr)} ${c},${v}</b><span>${evid(t)}</span></button>`).join('');
+  out.onclick = e => {
+    const b = e.target.closest('[data-ref]'); if (!b) return;
+    const [lb, c, v] = b.dataset.ref.split('-');
+    vai({ nome: 'capitolo', b: lb, c: +c, v: +v });
+  };
+}
+function vistaLibro(v) {
+  const L = LIB[v.b];
+  app.innerHTML = `<section class="vista">
+    <button class="indietro" type="button" id="ind">${ICONA.sx} Tutti i libri</button>
+    <header class="testata" style="padding-top:0;padding-right:0">
+      <p class="occhiello">${L.at ? 'Antico Testamento' : 'Nuovo Testamento'}</p>
+      <h1 class="titolo">${esc(L.nome)}</h1>
+      <p class="desc-libro">${esc(L.desc)}</p>
+    </header>
+    <div class="capitoli">${L.versetti.map((_, i) => `<button type="button" data-c="${i + 1}" aria-label="Capitolo ${i + 1}">${i + 1}</button>`).join('')}</div>
+  </section>`;
+  $('#ind').onclick = () => vai({ nome: 'bibbia' });
+  app.querySelector('.capitoli').addEventListener('click', e => {
+    const b = e.target.closest('[data-c]'); if (b) vai({ nome: 'capitolo', b: v.b, c: +b.dataset.c });
+  });
+}
+function vistaCapitolo(v) {
+  const L = LIB[v.b], tot = L.versetti.length;
+  const giorno = PIANO.find(p => p.seg.some(([b, c1, , c2]) => b === v.b && v.c >= c1 && v.c <= c2));
+  app.innerHTML = `<section class="vista">
+    <button class="indietro" type="button" id="ind">${ICONA.sx} ${tot === 1 ? 'Tutti i libri' : esc(L.nome)}</button>
+    <header class="testata" style="padding-top:0;padding-right:0">
+      <p class="occhiello">${giorno ? `Nel piano: giorno ${giorno.g}${fatto(giorno.g) ? ' · già letto' : ''}` : ''}</p>
+      <h1 class="titolo">${esc(L.nome)}${tot > 1 ? ' ' + v.c : ''}</h1>
+    </header>
+    ${evVivi().length ? '' : `<p class="suggerimento">${ICONA.penna}<span>Tocca un versetto per evidenziarlo, oppure tieni premuto e trascina per scegliere solo una frase.</span></p>`}
+    <div class="${classiTesto()}" id="testo"><p class="caricamento">Carico il testo…</p></div>
+    <nav class="prevnext" aria-label="Altri capitoli">
+      <button class="btn" type="button" id="prec" ${v.c === 1 ? 'disabled' : ''}>${ICONA.sx} Capitolo ${Math.max(1, v.c - 1)}</button>
+      <button class="btn" type="button" id="succ" ${v.c === tot ? 'disabled' : ''}>Capitolo ${Math.min(tot, v.c + 1)} ${ICONA.dx}</button>
+    </nav>
+    ${giorno ? `<button class="btn" type="button" id="al-giorno">Apri la lettura del giorno ${giorno.g}</button>` : ''}
+  </section>`;
+  $('#ind').onclick = () => vai(tot === 1 ? { nome: 'bibbia' } : { nome: 'libro', b: v.b });
+  $('#prec').onclick = () => vai({ nome: 'capitolo', b: v.b, c: v.c - 1 });
+  $('#succ').onclick = () => vai({ nome: 'capitolo', b: v.b, c: v.c + 1 });
+  if (giorno) $('#al-giorno').onclick = () => vai({ nome: 'giorno', g: giorno.g });
+  const box = $('#testo');
+  const carica = () => libro(v.b).then(t => {
+    if (vista !== v) return;
+    box.innerHTML = htmlCapitolo(v.b, v.c, t[v.c - 1], 1, t[v.c - 1].length, false);
+    if (v.v) {
+      const el = document.getElementById(`v-${v.b}-${v.c}-${v.v}`);
+      if (el) { el.classList.add('trovato'); el.scrollIntoView({ block: 'center' }); }
+    }
+  }).catch(() => erroreTesto(box, carica));
+  carica();
+  return { scrollGestito: Boolean(v.v) };
+}
+
+/* ================= installazione come app ================= */
+let invitoInstalla = null;
+const inCornice = window.top !== window;
+const installata = () => matchMedia('(display-mode: standalone)').matches || navigator.standalone === true;
+window.addEventListener('beforeinstallprompt', e => { e.preventDefault(); invitoInstalla = e; if (vista.nome === 'opzioni') mostra(vista, { senzaScroll: true }); });
+window.addEventListener('appinstalled', () => { invitoInstalla = null; avviso('App installata'); });
+function htmlInstalla() {
+  if (inCornice || installata()) return '';
+  const ios = /iphone|ipad|ipod/i.test(navigator.userAgent);
+  return `<div class="opz">
+      <h2>Installa l’app sul telefono</h2>
+      ${invitoInstalla
+        ? `<p>Avrai un’icona sulla schermata Home e potrai leggere anche senza connessione.</p><div><button class="btn piccolo primario" type="button" id="installa">Installa l’app</button></div>`
+        : ios
+          ? `<p>In Safari tocca il pulsante Condividi e poi «Aggiungi alla schermata Home».</p>`
+          : `<p>In Chrome apri il menu ⋮ e tocca «Installa app» oppure «Aggiungi a schermata Home».</p>`}
+    </div>`;
+}
+
+/* ================= vista: opzioni ================= */
+let confermaAzzera = false;
+function vistaOpzioni() {
+  const temi = [['auto', 'Automatico'], ['chiaro', 'Chiaro'], ['seppia', 'Seppia'], ['notte', 'Notte']];
+  const righe = [['auto', 'Solo Salmi e poesia'], ['sempre', 'Sempre'], ['mai', 'Mai']];
+  app.innerHTML = `<section class="vista opzioni">
+    <header class="testata" style="padding-right:0">
+      <p class="occhiello">Opzioni</p>
+      <h1 class="titolo">Come leggi meglio</h1>
+    </header>
+    ${htmlInstalla()}
+    <div class="opz">
+      <h2>Grandezza del testo</h2>
+      <div class="scala">
+        <span aria-hidden="true" style="font-size:14px">A</span>
+        <input type="range" id="dim" min="15" max="28" step="1" value="${imp.dim}" aria-label="Grandezza del testo">
+        <span aria-hidden="true" style="font-size:22px">A</span>
+      </div>
+      <p class="anteprima">L’Eterno è il mio pastore, nulla mi mancherà.</p>
+    </div>
+    <div class="opz">
+      <h2>Colori</h2>
+      <div class="scelte" id="temi">${temi.map(([k, t]) => `<button class="btn piccolo" type="button" data-tema="${k}" aria-pressed="${imp.tema === k}">${t}</button>`).join('')}</div>
+      <p>Automatico segue il tema del telefono. Seppia stanca meno gli occhi la sera.</p>
+    </div>
+    <div class="opz">
+      <h2>Un versetto per riga</h2>
+      <div class="scelte" id="righe">${righe.map(([k, t]) => `<button class="btn piccolo" type="button" data-righe="${k}" aria-pressed="${imp.righe === k}">${t}</button>`).join('')}</div>
+      <p>Con «Mai» il testo scorre in paragrafi, come un libro.</p>
+    </div>
+    <div class="opz">
+      <h2>Numeri dei versetti</h2>
+      <div class="scelte" id="numeri">
+        <button class="btn piccolo" type="button" data-numeri="1" aria-pressed="${imp.numeri}">Mostra</button>
+        <button class="btn piccolo" type="button" data-numeri="0" aria-pressed="${!imp.numeri}">Nascondi</button>
+      </div>
+    </div>
+    <div class="opz">
+      <h2>I tuoi progressi</h2>
+      <div class="stato-sync"><i class="${remoto.db ? 'ok' : ''}"></i><span>${remoto.db ? 'Salvati nel tuo account Claude: li ritrovi anche da un altro dispositivo.' : 'Salvati su questo dispositivo.'}</span></div>
+      <p>${contaFatti()} letture segnate. Per sicurezza puoi copiare un backup e incollarlo qui se cambi telefono.</p>
+      <div class="riga-btn">
+        <button class="btn piccolo" type="button" id="esporta">${ICONA.copia} Copia backup</button>
+        <button class="btn piccolo" type="button" id="mostra-importa">Ripristina da backup</button>
+      </div>
+      <div id="importa" hidden style="display:grid;gap:8px">
+        <textarea id="backup" aria-label="Incolla qui il backup" placeholder="Incolla qui il testo del backup"></textarea>
+        <div><button class="btn piccolo primario" type="button" id="ripristina">Ripristina</button></div>
+      </div>
+      <div class="conferma" id="azzera-box">
+        ${confermaAzzera
+          ? `<span>Cancellare tutte le letture segnate e le note dei giorni? Gli evidenziati restano.</span><button class="btn piccolo" type="button" id="azzera-si">Sì, ricomincia</button><button class="btn piccolo" type="button" id="azzera-no">No</button>`
+          : `<button class="btn piccolo" type="button" id="azzera">Ricomincia da capo</button>`}
+      </div>
+    </div>
+    <div class="opz">
+      <h2>Il testo</h2>
+      <p>Bibbia Riveduta di Giovanni Luzzi (1927), di pubblico dominio: è il testo integrale, non riassunto né modificato. Il piano segue l’ordine dei libri alternando Antico e Nuovo Testamento. Le sezioni «In breve», «Oggi» e «Per vivere meglio» sono spunti di riflessione aggiunti all’app e non fanno parte della Bibbia.</p>
+    </div>
+  </section>`;
+
+  const inst = $('#installa');
+  if (inst) inst.onclick = async () => { const e = invitoInstalla; invitoInstalla = null; e.prompt(); await e.userChoice.catch(() => null); mostra(vista, { senzaScroll: true }); };
+  const dim = $('#dim');
+  dim.addEventListener('input', () => { imp.dim = +dim.value; salvaImp(); });
+  $('#temi').onclick = e => { const b = e.target.closest('[data-tema]'); if (!b) return; imp.tema = b.dataset.tema; salvaImp(); mostra(vista, { senzaScroll: true }); };
+  $('#righe').onclick = e => { const b = e.target.closest('[data-righe]'); if (!b) return; imp.righe = b.dataset.righe; salvaImp(); mostra(vista, { senzaScroll: true }); };
+  $('#numeri').onclick = e => { const b = e.target.closest('[data-numeri]'); if (!b) return; imp.numeri = b.dataset.numeri === '1'; salvaImp(); mostra(vista, { senzaScroll: true }); };
+  $('#esporta').onclick = () => {
+    const dati = JSON.stringify({ app: 'bibbia365', v: 2, fatti: stato.fatti, note, ev: evVivi().map(e => Object.assign({ id: e.id }, campiEv(e))) });
+    const ta = $('#backup'); ta.value = dati; $('#importa').hidden = false;
+    copia(dati, ta);
+  };
+  $('#mostra-importa').onclick = () => { $('#importa').hidden = false; $('#backup').value = ''; $('#backup').focus(); };
+  $('#ripristina').onclick = () => {
+    try {
+      const d = JSON.parse($('#backup').value);
+      if (d.app !== 'bibbia365' || typeof d.fatti !== 'object') throw new Error('formato');
+      stato.fatti = d.fatti; salvaStato();
+      note = d.note || {}; ls.set(K_NOTE, note);
+      Object.entries(note).forEach(([g, n]) => scriviRemoto('nota-' + g, n));
+      (d.ev || []).forEach(e => { if (e && e.id && e.b && LIB[e.b]) { EV[e.id] = Object.assign({}, e, { sync: false, ts: Date.now() }); scriviEv(EV[e.id]); } });
+      salvaEvLocale();
+      avviso(`Ripristinate ${contaFatti()} letture e ${(d.ev || []).length} evidenziati`);
+      mostra(vista, { senzaScroll: true });
+    } catch (e) { avviso('Questo testo non è un backup valido'); }
+  };
+  const az = $('#azzera'); if (az) az.onclick = () => { confermaAzzera = true; mostra(vista, { senzaScroll: true }); };
+  const no = $('#azzera-no'); if (no) no.onclick = () => { confermaAzzera = false; mostra(vista, { senzaScroll: true }); };
+  const si = $('#azzera-si'); if (si) si.onclick = () => {
+    confermaAzzera = false;
+    Object.keys(note).forEach(g => scriviRemoto('nota-' + g, { t: '', ts: Date.now() }));
+    stato.fatti = {}; salvaStato(); note = {}; ls.set(K_NOTE, note);
+    avviso('Piano azzerato'); mostra(vista, { senzaScroll: true });
+  };
+}
+
+/* ================= evidenziatore ================= */
+// Un evidenziato va da (c1, v1, carattere o1) a (c2, v2, carattere o2) dentro un libro.
+const K_EV = 'bibbia365.evidenziati';
+const COLORI = [['giallo', 'Giallo'], ['verde', 'Verde'], ['azzurro', 'Azzurro'], ['rosa', 'Rosa']];
+let EV = ls.get(K_EV, {});
+const evVivi = () => Object.values(EV).filter(e => !e.del);
+const nuovoId = () => Date.now().toString(36) + Math.random().toString(36).slice(2, 7);
+const salvaEvLocale = () => ls.set(K_EV, EV);
+const nomeEv = id => `archivio/evidenziati/${id}`;
+const campiEv = e => { const { id, sync, ...resto } = e; return resto; };
+const isoLocale = ms => { const d = new Date(ms); return new Date(d.getTime() - d.getTimezoneOffset() * 6e4).toISOString(); };
+// (c1, v1) viene prima di (c2, v2)?
+const prima = (c1, v1, c2, v2) => c1 < c2 || (c1 === c2 && v1 < v2);
+
+function scriviEv(e) {
+  salvaEvLocale();
+  scriviRemoto(nomeEv(e.id), campiEv(e)).then(ok => {
+    if (ok && EV[e.id] && EV[e.id].ts === e.ts) { EV[e.id].sync = true; salvaEvLocale(); }
+  });
+}
+function eliminaEv(id) {
+  const e = EV[id]; if (!e) return;
+  if (!e.sync) { delete EV[id]; salvaEvLocale(); return; }
+  EV[id] = { id, del: true, ts: Date.now(), sync: true };
+  salvaEvLocale();
+  cancellaRemoto(nomeEv(id)).then(ok => { if (ok && EV[id] && EV[id].del) { delete EV[id]; salvaEvLocale(); } });
+}
+let tNotaEv = {};
+function aggiornaNotaEv(id, testo) {
+  const e = EV[id]; if (!e) return;
+  e.n = testo; e.ts = Date.now(); salvaEvLocale();
+  clearTimeout(tNotaEv[id]);
+  tNotaEv[id] = setTimeout(() => scriviEv(e), 800);
+}
+function cambiaColoreEv(id, col) {
+  const e = EV[id]; if (!e || e.col === col) return;
+  e.col = col; e.ts = Date.now(); scriviEv(e);
+  imp.ultimoColore = col; salvaImp();
+  aggiornaVersi();
+}
+// unisce la copia sul telefono con quella nell'account: vince la modifica più recente
+async function sincronizzaEv() {
+  if (!remoto.db) return;
+  const snap = await remoto.db.doc(`data/users/${remoto.uid}/archivio`).collection('evidenziati').limit(1000).get();
+  const R = {};
+  snap.docs.forEach(d => { R[d.id] = d.data(); });
+  for (const id of new Set([...Object.keys(R), ...Object.keys(EV)])) {
+    const r = R[id], l = EV[id];
+    if (r && (!l || (r.ts || 0) > (l.ts || 0))) { EV[id] = Object.assign({}, r, { id, sync: true }); continue; }
+    if (!l) continue;
+    if (l.del) { if (r) cancellaRemoto(nomeEv(id)).then(ok => { if (ok) { delete EV[id]; salvaEvLocale(); } }); else delete EV[id]; continue; }
+    if (!r && l.sync) { delete EV[id]; continue; } // cancellato da un altro dispositivo
+    if (!r || (l.ts || 0) > (r.ts || 0)) scriviEv(l); else l.sync = true;
+  }
+  salvaEvLocale();
+}
+
+function citaEv(e, lungo = true) {
+  const L = LIB[e.b], nome = lungo ? L.nome : L.abbr;
+  if (L.versetti.length === 1) return `${nome} ${e.v1}${e.v2 > e.v1 ? '-' + e.v2 : ''}`;
+  if (e.c1 === e.c2) return `${nome} ${e.c1},${e.v1}${e.v2 > e.v1 ? '-' + e.v2 : ''}`;
+  return `${nome} ${e.c1},${e.v1}–${e.c2},${e.v2}`;
+}
+async function testoDi(r) {
+  const t = await libro(r.b), parti = [];
+  for (let c = r.c1; c <= r.c2; c++) {
+    const vv = t[c - 1];
+    for (let v = c === r.c1 ? r.v1 : 1; v <= (c === r.c2 ? r.v2 : vv.length); v++) {
+      const s = vv[v - 1];
+      parti.push(s.slice(c === r.c1 && v === r.v1 ? r.o1 : 0, c === r.c2 && v === r.v2 ? r.o2 : s.length));
+    }
+  }
+  return parti.join(' ').replace(/\s+/g, ' ').trim();
+}
+
+// i tratti evidenziati dentro un versetto, in caratteri
+function segmentiVerso(lista, b, c, v, len) {
+  const out = [];
+  for (const e of lista) {
+    if (e.b !== b || prima(c, v, e.c1, e.v1) || prima(e.c2, e.v2, c, v)) continue;
+    const a = c === e.c1 && v === e.v1 ? e.o1 : 0;
+    const z = c === e.c2 && v === e.v2 ? Math.min(e.o2, len) : len;
+    if (z > a) out.push({ a, z, col: e.col, id: e.id, cr: e.cr || 0 });
+  }
+  return out;
+}
+function htmlVerso(t, segs) {
+  if (!segs.length) return esc(t);
+  const punti = [...new Set([0, t.length, ...segs.flatMap(s => [s.a, s.z])])]
+    .map(x => Math.max(0, Math.min(t.length, x))).sort((x, y) => x - y);
+  let h = '';
+  for (let i = 0; i < punti.length - 1; i++) {
+    const a = punti[i], z = punti[i + 1];
+    if (z <= a) continue;
+    const sopra = segs.filter(s => s.a <= a && s.z >= z).sort((x, y) => y.cr - x.cr)[0];
+    const pezzo = esc(t.slice(a, z));
+    h += sopra ? `<mark class="ev ev-${sopra.col}" data-ev="${sopra.id}">${pezzo}</mark>` : pezzo;
+  }
+  return h;
+}
+function aggiornaVersi() {
+  const box = $('#testo'); if (!box) return;
+  const lista = evVivi();
+  box.querySelectorAll('.v').forEach(s => {
+    const vt = s.querySelector('.vt'), t = vt.textContent;
+    vt.innerHTML = htmlVerso(t, segmentiVerso(lista, s.dataset.b, +s.dataset.c, +s.dataset.v, t.length));
+  });
+}
+const pastelli = (scelto, grande) => COLORI.map(([k, nome]) =>
+  `<button class="pastello ev-${k}" type="button" data-col="${k}" aria-label="${grande ? 'Evidenzia in ' : 'Colore '}${nome.toLowerCase()}" aria-pressed="${k === scelto}"></button>`).join('');
+
+// ----- scelta del testo: versetti toccati o frase selezionata -----
+const scelta = { modo: null, i1: -1, i2: -1, sel: null };
+const barraAz = $('#azioni');
+const spanTesto = () => { const box = $('#testo'); return box ? [...box.querySelectorAll('.v')] : []; };
+const lunghezza = s => s.querySelector('.vt').textContent.length;
+
+function rangeCorrente() {
+  if (scelta.modo === 'sel') return scelta.sel;
+  if (scelta.modo !== 'versi') return null;
+  const ss = spanTesto(), s1 = ss[scelta.i1], s2 = ss[scelta.i2];
+  if (!s1 || !s2) return null;
+  return { b: s1.dataset.b, c1: +s1.dataset.c, v1: +s1.dataset.v, o1: 0, c2: +s2.dataset.c, v2: +s2.dataset.v, o2: lunghezza(s2) };
+}
+function rangeDaSelezione() {
+  const sel = getSelection();
+  if (!sel || sel.isCollapsed || !sel.rangeCount) return null;
+  const rg = sel.getRangeAt(0), box = $('#testo');
+  if (!box || !box.contains(rg.commonAncestorContainer)) return null;
+  const spans = [...box.querySelectorAll('.v')].filter(s => rg.intersectsNode(s));
+  if (!spans.length) return null;
+  const pos = (span, nodo, off, inizio) => {
+    const vt = span.querySelector('.vt'), len = vt.textContent.length;
+    if (vt.contains(nodo)) { const r = document.createRange(); r.setStart(vt, 0); r.setEnd(nodo, off); return r.toString().length; }
+    if (span.querySelector('.vn').contains(nodo)) return 0;
+    if (nodo === span) return off <= [...span.childNodes].indexOf(vt) ? 0 : len;
+    if (span.contains(nodo)) return len; // lo spazio dopo il versetto
+    return inizio ? 0 : len;
+  };
+  let s1 = spans[0], s2 = spans[spans.length - 1];
+  let o1 = pos(s1, rg.startContainer, rg.startOffset, true);
+  let o2 = pos(s2, rg.endContainer, rg.endOffset, false);
+  if (o1 >= lunghezza(s1) && spans.length > 1) { spans.shift(); s1 = spans[0]; o1 = 0; }
+  if (o2 <= 0 && spans.length > 1) { spans.pop(); s2 = spans[spans.length - 1]; o2 = lunghezza(s2); }
+  if (s1.dataset.b !== s2.dataset.b) return { errore: 'Scegli un testo dentro un solo libro' };
+  const t1 = s1.querySelector('.vt').textContent, t2 = s2.querySelector('.vt').textContent;
+  while (o1 < t1.length && /\s/.test(t1[o1])) o1++;
+  while (o2 > 0 && /\s/.test(t2[o2 - 1])) o2--;
+  if (s1 === s2 && o2 <= o1) return null;
+  return { b: s1.dataset.b, c1: +s1.dataset.c, v1: +s1.dataset.v, o1, c2: +s2.dataset.c, v2: +s2.dataset.v, o2 };
+}
+function segnaScelti() {
+  spanTesto().forEach((s, i) => s.classList.toggle('scelto', scelta.modo === 'versi' && i >= scelta.i1 && i <= scelta.i2));
+}
+function mostraAzioni() {
+  const r = rangeCorrente();
+  if (!r) { chiudiAzioni(); return; }
+  const n = scelta.modo === 'versi' ? scelta.i2 - scelta.i1 + 1 : 0;
+  $('#azioni-ref').textContent = citaEv(r) + (scelta.modo === 'sel' ? ' · frase scelta' : n > 1 ? ` · ${n} versetti` : '');
+  $('#azioni-colori').innerHTML = pastelli(null, true);
+  barraAz.hidden = false;
+}
+function chiudiAzioni() {
+  scelta.modo = null; scelta.i1 = scelta.i2 = -1; scelta.sel = null;
+  if (barraAz) barraAz.hidden = true;
+  segnaScelti();
+}
+
+let tSel;
+document.addEventListener('selectionchange', () => {
+  clearTimeout(tSel);
+  tSel = setTimeout(() => {
+    const r = rangeDaSelezione();
+    if (!r) return;
+    if (r.errore) { avviso(r.errore); return; }
+    scelta.modo = 'sel'; scelta.sel = r; scelta.i1 = scelta.i2 = -1;
+    segnaScelti(); mostraAzioni();
+  }, 250);
+});
+app.addEventListener('click', e => {
+  if (!e.target.closest('#testo')) return;
+  const sel = getSelection();
+  if (sel && !sel.isCollapsed) return;
+  if (scelta.modo === 'sel') { chiudiAzioni(); return; }
+  const m = e.target.closest('mark.ev');
+  if (m && scelta.modo !== 'versi') { apriFoglio(m.dataset.ev, false); return; }
+  const s = e.target.closest('.v'); if (!s) return;
+  const ss = spanTesto(), i = ss.indexOf(s);
+  if (scelta.modo !== 'versi' || ss[scelta.i1].dataset.b !== s.dataset.b) { scelta.modo = 'versi'; scelta.i1 = scelta.i2 = i; }
+  else if (i < scelta.i1) scelta.i1 = i;
+  else if (i > scelta.i2) scelta.i2 = i;
+  else if (scelta.i1 === scelta.i2) { chiudiAzioni(); return; }
+  else if (i === scelta.i1) scelta.i1++;
+  else if (i === scelta.i2) scelta.i2--;
+  else scelta.i2 = i;
+  segnaScelti(); mostraAzioni();
+});
+// sul computer, il clic sui pulsanti non deve togliere la selezione
+barraAz.addEventListener('mousedown', e => { if (e.target.closest('button')) e.preventDefault(); });
+$('#azioni-chiudi').onclick = () => { try { getSelection().removeAllRanges(); } catch (_) { /* niente da togliere */ } chiudiAzioni(); };
+$('#azioni-copia').onclick = async () => {
+  const r = rangeCorrente(); if (!r) return;
+  copia(`«${await testoDi(r)}» (${citaEv(r)})`, barraAz);
+};
+$('#azioni-colori').addEventListener('click', async e => {
+  const b = e.target.closest('[data-col]'); if (!b) return;
+  const r = rangeCorrente(); if (!r) return;
+  const ora = Date.now();
+  const nuovo = Object.assign({ id: nuovoId() }, r, { t: await testoDi(r), n: '', col: b.dataset.col, cr: ora, ts: ora });
+  EV[nuovo.id] = nuovo; scriviEv(nuovo);
+  imp.ultimoColore = nuovo.col; salvaImp();
+  try { getSelection().removeAllRanges(); } catch (_) { /* niente da togliere */ }
+  chiudiAzioni(); aggiornaVersi();
+  const sugg = $('.suggerimento'); if (sugg) sugg.remove();
+  apriFoglio(nuovo.id, true);
+});
+
+// ----- foglio di un singolo evidenziato: commento, colore, elimina -----
+let foglio = null;
+function chiudiFoglio() {
+  if (!foglio) return;
+  foglio.remove(); foglio = null;
+  document.removeEventListener('keydown', escFoglio);
+}
+const escFoglio = e => { if (e.key === 'Escape') chiudiFoglio(); };
+function apriFoglio(id, nuovo) {
+  const e = EV[id]; if (!e || e.del) return;
+  chiudiFoglio();
+  foglio = document.createElement('div');
+  foglio.className = 'velo';
+  foglio.innerHTML = `<div class="foglio" role="dialog" aria-modal="true" aria-labelledby="f-ref">
+    <div class="ev-testa"><span class="ev-ref" id="f-ref">${esc(citaEv(e))}</span>
+      <button class="chiudi" type="button" data-chiudi aria-label="Chiudi">${ICONA.x}</button></div>
+    <p class="ev-cit"><mark class="ev ev-${e.col}" id="f-mark">${esc(e.t)}</mark></p>
+    <div class="ev-commento">
+      <label for="f-nota">${nuovo ? 'Evidenziato. Vuoi aggiungere un commento?' : 'Il tuo commento'}</label>
+      <textarea id="f-nota" placeholder="Perché ti ha colpito, a che cosa ti fa pensare…">${esc(e.n || '')}</textarea>
+    </div>
+    <div class="ev-piede"><div class="pastelli" id="f-colori">${pastelli(e.col)}</div></div>
+    <div class="ev-piede" id="f-azioni">
+      <button class="btn piccolo" type="button" data-elimina>Elimina</button>
+      <button class="btn primario" type="button" data-chiudi>Fatto</button>
+    </div>
+  </div>`;
+  document.body.append(foglio);
+  document.addEventListener('keydown', escFoglio);
+  const ta = foglio.querySelector('#f-nota');
+  ta.addEventListener('input', () => aggiornaNotaEv(id, ta.value));
+  foglio.addEventListener('click', ev => {
+    if (ev.target === foglio || ev.target.closest('[data-chiudi]')) { chiudiFoglio(); if (vista.nome === 'evidenziati') disegnaListaEv(); return; }
+    const c = ev.target.closest('[data-col]');
+    if (c) {
+      cambiaColoreEv(id, c.dataset.col);
+      foglio.querySelector('#f-mark').className = `ev ev-${c.dataset.col}`;
+      foglio.querySelector('#f-colori').innerHTML = pastelli(c.dataset.col);
+      return;
+    }
+    if (ev.target.closest('[data-elimina]')) {
+      foglio.querySelector('#f-azioni').innerHTML = `<span>Eliminare questo evidenziato?</span>
+        <div class="riga-btn"><button class="btn piccolo" type="button" data-no>No</button><button class="btn piccolo primario" type="button" data-si>Sì, elimina</button></div>`;
+      return;
+    }
+    if (ev.target.closest('[data-no]')) { const f = id; chiudiFoglio(); apriFoglio(f, false); return; }
+    if (ev.target.closest('[data-si]')) {
+      eliminaEv(id); chiudiFoglio(); aggiornaVersi(); avviso('Evidenziato eliminato');
+      if (vista.nome === 'evidenziati') disegnaListaEv();
+    }
+  });
+}
+
+// ----- il taccuino degli evidenziati -----
+const filtroEv = { q: '', ordine: 'bibbia', libro: '' };
+let confermaEv = null;
+const ordineLibro = id => LIBRI.findIndex(l => l.id === id);
+function listaFiltrataEv() {
+  const q = normalizza(filtroEv.q.trim());
+  const lista = evVivi().filter(e => (!filtroEv.libro || e.b === filtroEv.libro) &&
+    (!q || normalizza(e.t + ' ' + (e.n || '') + ' ' + citaEv(e)).includes(q)));
+  if (filtroEv.ordine === 'recenti') return lista.sort((a, b) => (b.cr || 0) - (a.cr || 0));
+  return lista.sort((a, b) => ordineLibro(a.b) - ordineLibro(b.b) || a.c1 - b.c1 || a.v1 - b.v1 || a.o1 - b.o1);
+}
+function vistaEvidenziati() {
+  const tutti = evVivi();
+  const presenti = LIBRI.filter(l => tutti.some(e => e.b === l.id));
+  if (filtroEv.libro && !presenti.some(l => l.id === filtroEv.libro)) filtroEv.libro = '';
+  app.innerHTML = `<section class="vista">
+    <header class="testata" style="padding-right:0">
+      <p class="occhiello">Il tuo taccuino</p>
+      <h1 class="titolo">Evidenziati</h1>
+      <p class="passi"><strong id="ev-conta"></strong><span>${remoto.db ? 'salvati nel tuo account' : 'salvati su questo dispositivo'}</span></p>
+    </header>
+    ${tutti.length ? `<div class="ev-strumenti">
+      <input class="ev-cerca" id="ev-q" type="search" placeholder="Cerca nelle frasi e nei commenti" value="${esc(filtroEv.q)}" aria-label="Cerca negli evidenziati">
+      <div class="ev-filtri">
+        <select id="ev-ordine" aria-label="Ordine">
+          <option value="bibbia" ${filtroEv.ordine === 'bibbia' ? 'selected' : ''}>Ordine della Bibbia</option>
+          <option value="recenti" ${filtroEv.ordine === 'recenti' ? 'selected' : ''}>Più recenti</option>
+        </select>
+        <select id="ev-libro" aria-label="Libro">
+          <option value="">Tutti i libri</option>
+          ${presenti.map(l => `<option value="${l.id}" ${filtroEv.libro === l.id ? 'selected' : ''}>${esc(l.nome)}</option>`).join('')}
+        </select>
+      </div>
+      <div class="riga-btn">
+        <button class="btn piccolo" type="button" id="ev-scarica">Scarica come file</button>
+        <button class="btn piccolo" type="button" id="ev-copia">${ICONA.copia} Copia tutto</button>
+      </div>
+    </div>` : `<div class="vuoto">
+      <p><b>Qui trovi le frasi che evidenzi mentre leggi.</b></p>
+      <p>Tocca un versetto per sceglierlo (tocca altri versetti per allungare la scelta), oppure tieni premuto sul testo e trascina per prendere solo una frase. Poi scegli un colore: accanto a ogni frase puoi scrivere un commento, e trovi sempre libro, capitolo e versetto.</p>
+      <div><button class="btn primario" type="button" id="ev-vai">Vai alla lettura di oggi</button></div>
+    </div>`}
+    <div class="ev-lista" id="ev-lista"></div>
+  </section>`;
+  if (!tutti.length) { $('#ev-vai').onclick = () => vai({ nome: 'oggi' }); $('#ev-conta').textContent = 'Ancora nessun evidenziato'; return; }
+  $('#ev-q').addEventListener('input', e => { filtroEv.q = e.target.value; disegnaListaEv(); });
+  $('#ev-ordine').onchange = e => { filtroEv.ordine = e.target.value; disegnaListaEv(); };
+  $('#ev-libro').onchange = e => { filtroEv.libro = e.target.value; disegnaListaEv(); };
+  $('#ev-scarica').onclick = () => scaricaEv(listaFiltrataEv());
+  $('#ev-copia').onclick = () => copia(testoFileEv(listaFiltrataEv()), $('#ev-lista'));
+  const box = $('#ev-lista');
+  box.addEventListener('input', e => { const t = e.target.closest('[data-nota]'); if (t) aggiornaNotaEv(t.closest('[data-id]').dataset.id, t.value); });
+  box.addEventListener('click', e => {
+    const card = e.target.closest('[data-id]'); if (!card) return;
+    const id = card.dataset.id, ev = EV[id]; if (!ev) return;
+    const c = e.target.closest('[data-col]');
+    if (c) { cambiaColoreEv(id, c.dataset.col); disegnaListaEv(); return; }
+    if (e.target.closest('[data-apri]')) { vai({ nome: 'capitolo', b: ev.b, c: ev.c1, v: ev.v1 }); return; }
+    if (e.target.closest('[data-elimina]')) { confermaEv = id; disegnaListaEv(); return; }
+    if (e.target.closest('[data-no]')) { confermaEv = null; disegnaListaEv(); return; }
+    if (e.target.closest('[data-si]')) { confermaEv = null; eliminaEv(id); avviso('Evidenziato eliminato'); mostra(vista, { senzaScroll: true }); }
+  });
+  disegnaListaEv();
+}
+function disegnaListaEv() {
+  const box = $('#ev-lista'); if (!box) return;
+  const tutti = evVivi().length, lista = listaFiltrataEv();
+  const conta = $('#ev-conta');
+  if (conta) conta.textContent = lista.length === tutti ? `${tutti} ${tutti === 1 ? 'evidenziato' : 'evidenziati'}` : `${lista.length} di ${tutti}`;
+  box.innerHTML = lista.length ? lista.map(e => `<article class="ev-scheda" data-id="${e.id}">
+      <div class="ev-testa"><span class="ev-ref">${esc(citaEv(e))}</span><span class="ev-data">${dataLunga(isoLocale(e.cr || e.ts))}</span></div>
+      <p class="ev-cit"><mark class="ev ev-${e.col}">${esc(e.t)}</mark></p>
+      <div class="ev-commento"><label class="sr" for="n-${e.id}">Commento a ${esc(citaEv(e))}</label>
+        <textarea id="n-${e.id}" data-nota placeholder="Scrivi un commento…">${esc(e.n || '')}</textarea></div>
+      ${confermaEv === e.id
+        ? `<div class="ev-piede"><span>Eliminare questo evidenziato?</span><div class="riga-btn"><button class="btn piccolo" type="button" data-no>No</button><button class="btn piccolo primario" type="button" data-si>Sì, elimina</button></div></div>`
+        : `<div class="ev-piede"><div class="pastelli">${pastelli(e.col)}</div>
+          <div class="riga-btn"><button class="btn piccolo" type="button" data-apri>Apri nel testo</button><button class="btn piccolo" type="button" data-elimina>Elimina</button></div></div>`}
+    </article>`).join('') : '<p class="previsione">Nessun evidenziato corrisponde alla ricerca.</p>';
+}
+function testoFileEv(lista) {
+  const n = lista.length;
+  const righe = ['I MIEI EVIDENZIATI', 'Bibbia in un anno · Riveduta 1927 (Giovanni Luzzi)',
+    `Esportato il ${dataLunga(oggiISO())} · ${n} ${n === 1 ? 'evidenziato' : 'evidenziati'}`, ''];
+  for (const e of lista) {
+    righe.push('────────────────────', citaEv(e).toUpperCase(), `«${e.t}»`);
+    if (e.n && e.n.trim()) righe.push('', 'Commento: ' + e.n.trim());
+    righe.push('', `Evidenziato il ${dataLunga(isoLocale(e.cr || e.ts))}`, '');
+  }
+  return righe.join('\n');
+}
+async function scaricaEv(lista) {
+  if (!lista.length) { avviso('Non c’è niente da scaricare'); return; }
+  const testo = testoFileEv(lista), nome = `evidenziati-bibbia-${oggiISO()}.txt`;
+  const c = window.claude;
+  if (c && typeof c.use === 'function') {
+    const dl = await c.use('downloads').catch(() => null);
+    if (dl) {
+      try { await dl.save({ filename: nome, data: testo }); avviso('File salvato'); }
+      catch (err) { if (!err || err.code !== 'declined') avviso('Qui non riesco a salvare il file: usa «Copia tutto»'); }
+      return;
+    }
+    if (window.top !== window) { avviso('Qui non riesco a salvare il file: usa «Copia tutto»'); return; }
+  }
+  const url = URL.createObjectURL(new Blob([testo], { type: 'text/plain;charset=utf-8' }));
+  const a = document.createElement('a');
+  a.href = url; a.download = nome; document.body.append(a); a.click(); a.remove();
+  setTimeout(() => URL.revokeObjectURL(url), 5000);
+  avviso('File scaricato');
+}
+
+/* ================= avvio ================= */
+async function avvia() {
+  applicaImpostazioni();
+  try {
+    [LIBRI, PIANO, RIFL] = await Promise.all(['libri', 'piano', 'riflessioni'].map(n =>
+      fetch(`data/${n}.json`).then(r => { if (!r.ok) throw new Error(n); return r.json(); })));
+  } catch (e) {
+    app.innerHTML = `<div class="vista"><div class="errore"><p>Non riesco ad aprire l’app: controlla la connessione e riprova.</p><button class="btn piccolo" type="button" onclick="location.reload()">Riprova</button></div></div>`;
+    return;
+  }
+  LIBRI.forEach(l => { LIB[l.id] = l; });
+  mostra(daHash(location.hash), { senzaScroll: true });
+  collegaRemoto();
+  if ('serviceWorker' in navigator && !inCornice && window.isSecureContext) {
+    navigator.serviceWorker.register('sw.js').catch(() => {});
+    // chiede al browser di non cancellare progressi ed evidenziati quando lo spazio scarseggia
+    if (navigator.storage && navigator.storage.persist) navigator.storage.persist().catch(() => {});
+  }
+}
+avvia();
+})();
+</script>
+
+</body>
+</html>
